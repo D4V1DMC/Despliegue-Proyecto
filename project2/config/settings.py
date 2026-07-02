@@ -14,7 +14,14 @@ SECRET_KEY = 'django-insecure-e9je!_k_o@3bt)xz5@km&er@)#@01^w=o&hg_i(^mox(gqor+g
 # IMPORTANTE: DEBUG = False protege tu código de ojos curiosos
 DEBUG = True
 
-ALLOWED_HOSTS = ['jaunt-ducky-vocation.ngrok-free.dev', 'localhost', '127.0.0.1', 'testserver']
+# Se agrega '.render.com' para permitir el acceso desde los dominios de Render
+ALLOWED_HOSTS = [
+    'jaunt-ducky-vocation.ngrok-free.dev', 
+    'localhost', 
+    '127.0.0.1', 
+    'testserver',
+    '.render.com'
+]
 
 # --------------------------------------------------------------------------
 # 3. DEFINICIÓN DE APLICACIONES
@@ -80,16 +87,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # --------------------------------------------------------------------------
-# 6. BASE DE DATOS (MYSQL - BEDCOM)
+# 6. BASE DE DATOS (CAMBIADO A SQLITE3)
 # --------------------------------------------------------------------------
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bedcom',
-        'USER': 'root',
-        'PASSWORD': '123456789',
-        'HOST': 'db',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -158,19 +161,22 @@ TIME_ZONE = 'America/Bogota'
 USE_I18N = True
 USE_TZ = True
 
-
-#-------------------------------------------------------------------------------------
-# 11. NOTIFICIONES PUSH (WEBPUSH)
-#-------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+# 11. NOTIFICIONES PUSH Y SEGURIDAD CSRF
+# --------------------------------------------------------------------------
 WEBPUSH_SETTINGS = {
     "VAPID_PUBLIC_KEY": "BLjn-B3mEGtJrzWJro80zJPp2vBkD7kbqs9Lmk6dFm776AzHz-itrdZEAH23UDE1r9Ncy34o14XUE3E4QzxTR50",
     "VAPID_PRIVATE_KEY": "3vNfCBBg7NEK0II_mlty6WjkpXSt-_8f9aKjRBHh7W4",
     "VAPID_ADMIN_EMAIL": "porprobar221@gmail.com"
 }
+
+# Se agrega el patrón de subdominios de Render para evitar bloqueos de seguridad CSRF
 CSRF_TRUSTED_ORIGINS = [
     'https://jaunt-ducky-vocation.ngrok-free.dev',
+    'https://*.render.com'
 ]
+
 # --------------------------------------------------------------------------
-# 11. CONFIGURACIÓN LUNA IA (EDGE TTS)
-# Carpeta para guardar audios generados temporalmente
+# 12. CONFIGURACIÓN LUNA IA (EDGE TTS)
+# --------------------------------------------------------------------------
 LUNA_VOICES_DIR = MEDIA_ROOT / 'voces_ia'
