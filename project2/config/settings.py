@@ -20,7 +20,8 @@ ALLOWED_HOSTS = [
     'localhost', 
     '127.0.0.1', 
     'testserver',
-    '.render.com'
+    '.render.com',
+    "despliegue-proyecto-0uiv.onrender.com",
 ]
 
 # --------------------------------------------------------------------------
